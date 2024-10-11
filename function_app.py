@@ -206,10 +206,9 @@ def get_deserialize_data(serialize_data):
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
-@app.route(route="DeserializeInference")
+@app.route(route="DeserializeInference", auth_level=func.AuthLevel.FUNCTION)
 def DeserializeInference(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
-
     try:
         req_body = req.get_json()
         deviceid = req_body.get('DeviceID')
@@ -221,10 +220,8 @@ def DeserializeInference(req: func.HttpRequest) -> func.HttpResponse:
 
     except ValueError:
         pass
-    else:
-        name = req_body.get('DeviceID')
 
-    if name:
+    if deserialize_data:
         return func.HttpResponse(f"{deserialize_data}",
              status_code=200)
     else:
@@ -232,4 +229,24 @@ def DeserializeInference(req: func.HttpRequest) -> func.HttpResponse:
              "{}",
              status_code=200
         )
+    
+@app.route(route="DeserializeInferenceItem", auth_level=func.AuthLevel.FUNCTION)
+def DeserializeInferenceItem(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+    try:
+        req_body = req.get_json()
+        inference_item = req_body.get('InferenceItem')
+        deserialize_data = get_deserialize_data(inference_item)
+        logging.info(deserialize_data)
 
+    except ValueError:
+        pass
+
+    if deserialize_data:
+        return func.HttpResponse(f"{deserialize_data}",
+             status_code=200)
+    else:
+        return func.HttpResponse(
+             "{}",
+             status_code=200
+        )

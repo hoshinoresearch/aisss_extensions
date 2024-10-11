@@ -9,10 +9,18 @@ Azure FunctionsのHTTPトリガーを用い、物体認識の推論結果の文�
 Flatbuffersを用いて、デシリアライズを実施しています。<br/>
 get_deserialize_data関数及び周辺の処理を流用することで、Azure Functions以外の仕組みにも組み込み／活用することができます。<br/>
 
-# 実行時のイメージ
+# 実行時のイメージ①　推論結果全体
 https://aisss-extensions.azurewebsites.net/api/DeserializeInference?code={code}<br/>
 aisss-extensions.azurewebsites.netはお使いの環境によって変更してください。<br/>
 codeはAzure Functionsで関数作成時に発行されたコードを利用してください。<br/>
 
 Body句には推論結果をそのまま渡してください。以下は実際に出力された推論結果データの例となります。<br/>
 {"DeviceID":"Aid-80070001-0000-2000-9002-000000000a66","ModelID":"0311030023160100","Image":false,"Inferences":[{"T":"20240916160111994","O":"DAAAAAAABgAKAAQABgAAAAwAAAAAAAYACAAEAAYAAAAEAAAAAQAAABAAAAAMABAAAAAHAAgADAAMAAAAAAAAARQAAAAAAHI/DAAUAAQACAAMABAADAAAAK4AAAAMAAAAHwEAAGEAAAA="}]}
+
+# 実行時のイメージ②　推論結果データ部のみ
+https://aisss-extensions.azurewebsites.net/api/DeserializeInferenceItem?code={code}<br/>
+aisss-extensions.azurewebsites.netはお使いの環境によって変更してください。<br/>
+codeはAzure Functionsで関数作成時に発行されたコードを利用してください。<br/>
+
+Body句には推論結果をそのまま渡してください。以下は実際に出力された推論結果データの例となります。<br/>
+{"InferenceItem":"DAAAAAAABgAKAAQABgAAAAwAAAAAAAYACAAEAAYAAAAEAAAAAQAAABAAAAAMABAAAAAHAAgADAAMAAAAAAAAARQAAAAAAHI/DAAUAAQACAAMABAADAAAAK4AAAAMAAAAHwEAAGEAAAA="}
